@@ -1,0 +1,25 @@
+{
+  "name": "bookworm.api",
+  "version": "1.0.0",
+  "description": "A Restful API provided with node.js.",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "body-parser": "1.15.2",
+    "mongodb": "^2.2.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CumhurD/BookWorm.API.git"
+  },
+  "author": "Cumhur Düzlü",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CumhurD/BookWorm.API/issues"
+  },
+  "homepage": "https://github.com/CumhurD/BookWorm.API#readme"
+}
