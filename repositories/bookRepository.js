@@ -1,8 +1,14 @@
 var baseRepository = require('./baseRepository');
 
 module.exports = {
-    getBooks: function(){
-        console.log('bookRepository.getBooks() called!')
+    getBooks: function(callback){
+        var db = baseRepository.getDb();
+
+        db.collection('Books').find({}).toArray(callback);
+    },
+
+    getBooksWithQuery(query, callback){
+        db.collection('Books').find(query).toArray(callback);
     },
 
     upsertBook: function(title,authorId, callback){
@@ -16,6 +22,6 @@ module.exports = {
             Variants: []
         }
 
-        db.collection('Books').insertOne(book, callback);
+        db.collection('Books').insertOne(book,callback);
     }
 }
