@@ -7,10 +7,22 @@ module.exports = {
             return;
         }
         else if (request.processedItem){
+            // TODO: Check if item has found. Else return 404.
+
             response.send(request.processedItem);
             return;
         }
+        else if (request.processedResult){
+            response.send({
+                message: "",
+                count: request.processedResult.insertedCount
+            })
+        }
 
         response.status(400).send('UNIDENTIFIED_ERROR');
+    },
+    checkAuthentication: function(request, response, next){
+        // TODO: Authentication will be implemented!
+        next();
     }
 }

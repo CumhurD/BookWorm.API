@@ -14,6 +14,6 @@ app.use(errorManager.handleError);
 routerModules.init(app);
 
 app.listen(configuration.applicationPort, function(){
-    console.log('Bookworm.API listening on port '+ configuration.applicationPort);
+    console.log('Bookworm.API listening on port ' + configuration.applicationPort);
 });
 
