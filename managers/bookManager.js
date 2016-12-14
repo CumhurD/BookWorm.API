@@ -9,7 +9,7 @@ module.exports = {
         if (authorId){
             bookRepository.getBooksByAuthorId(authorId, function(error, documents){
                 request.processedError = error;
-                request.processedItem = documents;
+                request.rawItem = documents;
 
                 return next();
             });
@@ -17,7 +17,7 @@ module.exports = {
         else{
             bookRepository.getAllBooks(function(error, documents){
                 request.processedError = error;
-                request.processedItem = documents;
+                request.rawItem = documents;
 
                 return next();
             });
@@ -38,7 +38,7 @@ module.exports = {
 
         bookRepository.getBookById(bookId,function(error, document){
             request.processedError = error;
-            request.processedItem = document;
+            request.rawItem = document;
 
             return next();
         });
@@ -59,7 +59,7 @@ module.exports = {
                 
         bookRepository.upsertBook(title, authorId, function (error, result){
             request.processedError = error;
-            request.processedResult = result;
+            request.rawResult = result;
 
             return next();
         });   
