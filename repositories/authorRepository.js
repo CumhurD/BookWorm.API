@@ -1,6 +1,9 @@
 var baseRepository = require('./baseRepository');
 
 module.exports = {
-    // TODO: It will be implemented later!
+    getAuthorById: function(authorId, next){
+        var db = baseRepository.getDb();
 
+        db.collection('Authors').findOne({_id:authorId}, next);
+    }
 }

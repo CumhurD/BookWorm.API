@@ -1,20 +1,33 @@
 var assert = require('assert');
-var bookManager = require('../managers/bookManager');
 var moduleManager = require('../managers/moduleManager');
-var mappingManager = require('../managers/mappingManager');
+var authorManager = require('../managers/authorManager');
+var genreManager = require('../managers/genreManager');
+var bookManager = require('../managers/bookManager');
+var bookDataCollector = require('../dataCollectors/bookDataCollector');
+var bookTransformer = require('../transformers/bookTransformer');
+var commonTransformer = require('../transformers/commonTransformer');
 
 module.exports = {
     init: function (app){
-        var moduleName = '/books/';
 
         // Returns all books
-        app.get(moduleName, bookManager.getBooks, mappingManager.mapToBookDto);
+        app.get('/books/', 
+            bookDataCollector.collectGetBooksData,
+            bookManager.getBooks, 
+            bookTransformer.transformBooks);
 
         // Returns book by BookID
-        app.get(moduleName + ':bookId/', bookManager.getBookById, mappingManager.mapToBookDto); 
+        app.get('/books/:bookId/', 
+            bookDataCollector.collectGetBookByIdData, 
+            bookManager.getBookById, 
+            bookTransformer.transformBook); 
 
         // Inserts book
-        app.post(moduleName, bookManager.insertBook);
-        
+        app.post('/books/', 
+            bookDataCollector.collectInsertBookData,
+            genreManager.getGenreById, 
+            authorManager.getAuthorById, 
+            bookManager.insertBook,
+            commonTransformer.commonResult);
     }
 }

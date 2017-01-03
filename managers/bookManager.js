@@ -1,69 +1,53 @@
 var bookRepository = require('../repositories/bookRepository');
+var mongoResultHandler = require('./moduleManager').getMongoResultHandler;
 
 module.exports = {
-
     getBooks: function(request, response, next){
-        // TODO: Pagination will be implemented
-        var authorId = request.query.authorId;
+        var authorId = request.getParameter('authorId');
 
         if (authorId){
-            bookRepository.getBooksByAuthorId(authorId, function(error, documents){
-                request.processedError = error;
-                request.rawItem = documents;
+            bookRepository.getBooksByAuthorId(authorId, function(book){
+                request.addParameter('book', book);
 
                 return next();
             });
         }
         else{
-            bookRepository.getAllBooks(function(error, documents){
-                request.processedError = error;
-                request.rawItem = documents;
+            bookRepository.getAllBooks(function(books){
+                request.addParameter('books', books);
 
                 return next();
             });
         }
-
     },
     getBookById: function(request, response, next){
-        var bookId = request.params.bookId;
+        var bookId = request.getParameter('bookId');
 
-        if (!bookId){
-            request.processedError = {
-                code: "EMPTY_FIELD",
-                message: "bookId field cannot be empty!"
-            };
-
-            return next();
-        }
-
-        bookRepository.getBookById(bookId,function(error, document){
-            request.processedError = error;
-            request.rawItem = document;
+        bookRepository.getBookById(bookId, function(error, document){
+            if (error)
+                return next(error);
+            else if (!document)
+                return next({code: 404, message: 'Book cannot be found!'});
+                
+            request.addParameter('book', document);
 
             return next();
         });
     },
     insertBook: function(request, response, next){
-        var title = request.body.Title;
-        var authorId = request.body.AuthorId;
+        var author = request.getParameter('author');
+        var title = request.getParameter('title');
+        var genres = request.getParameter('genres');
 
-        if (!title || !authorId)
-        {
-            request.processedError = {
-                code: "EMPTY_FIELD",
-                message: "Title and AuthorId fields cannot be empty!"
-            }
+        var genreIds = genres.map(function(genre){return genre._id;});
 
-            return next();
-        }
-                
-        bookRepository.upsertBook(title, authorId, function (error, result){
-            request.processedError = error;
-            request.rawResult = result;
-
+        bookRepository.upsertBook(title, author._id, genreIds, function (error, result){
+            if (error)
+                return next(error);
+            
+            request.addParameter('result', result);
+            
             return next();
         });   
     }
-
-
 }

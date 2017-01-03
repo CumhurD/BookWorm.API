@@ -1,28 +1,18 @@
+var mongoClient = require('mongodb').MongoClient;
+var configuration = require('../config.json');
 
 module.exports = {
-    processResponse: function(request, response){
-        if(request.processedError){
-            var error = request.processedError;
-            response.status(error.code).send(error.message);
-            return;
-        }
-        else if (request.processedItem){
-            // TODO: Check if item has found. Else return 404.
+    // TODO: This method's work should be done when application starts. 
+    // Otherwise, this method will be executed on every api call.
+    implementRequestHelpers: function(request, response, next){ 
+        request.addParameter = function(parameterId, parameter){
+            request._parameters = request.parameters || {};
+            request._parameters[parameterId] = parameter;
+        };
+        request.getParameter = function(parameterId){
+            return request._parameters[parameterId];
+        };
 
-            response.send(request.processedItem);
-            return;
-        }
-        else if (request.processedResult){
-            response.send({
-                message: "",
-                count: request.processedResult.insertedCount
-            })
-        }
-
-        response.status(400).send('UNIDENTIFIED_ERROR');
-    },
-    checkAuthentication: function(request, response, next){
-        // TODO: Authentication will be implemented!
         next();
     }
 }

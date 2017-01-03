@@ -1,4 +1,5 @@
 
+
 module.exports = {
     mapToBookDto: function (rawBook){
         var bookDto = {
@@ -8,11 +9,11 @@ module.exports = {
 
         return bookDto;
     },
-    mapToBookDtos: function(rawBooks){
+    mapToBookDtoArray: function(rawBooks){
         if (!rawBooks instanceof Array)
             throw "rawBooks variable is not an instance of Array!";
 
-        var bookDtos = rawBooks.map(book => {return this.mapToBookDto(book);});
+        var bookDtos = rawBooks.map(book => { return this.mapToBookDto(book); });
 
         return bookDtos;
     }
