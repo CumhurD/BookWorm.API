@@ -9,6 +9,6 @@ module.exports = {
     getGenreByIdList: function(genreIds, callback){
         var db = baseRepository.getDb();
 
-        db.collection('Genres').find({_id: genreIds}).toArray(callback);
+        db.collection('Genres').find({_id: {$in: genreIds}}).toArray(callback);
     }
 }

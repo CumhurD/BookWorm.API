@@ -25,7 +25,7 @@ module.exports = {
         // Inserts book
         app.post('/books/', 
             bookDataCollector.collectInsertBookData,
-            genreManager.getGenreById, 
+            genreManager.getGenreByIdList, 
             authorManager.getAuthorById, 
             bookManager.insertBook,
             commonTransformer.commonResult);

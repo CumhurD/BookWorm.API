@@ -6,14 +6,20 @@ module.exports = {
         var authorId = request.getParameter('authorId');
 
         if (authorId){
-            bookRepository.getBooksByAuthorId(authorId, function(book){
-                request.addParameter('book', book);
+            bookRepository.getBooksByAuthorId(authorId, function(error, book){
+                if (error)
+                    return next(error);
+
+                request.addParameter('books', book);
 
                 return next();
             });
         }
         else{
-            bookRepository.getAllBooks(function(books){
+            bookRepository.getAllBooks(function(error, books){
+                if (error)
+                    return next(error);
+                
                 request.addParameter('books', books);
 
                 return next();

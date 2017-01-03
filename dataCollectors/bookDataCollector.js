@@ -28,7 +28,7 @@ module.exports = {
         var genreIds = request.body.GenreIds;
         var title = request.body.Title;
         
-        if (!title || !authorId || !genreId)
+        if (!title || !authorId || !genreIds)
             return next({message: 'Title, AuthorId and GenreIds parameters are required!'});
 
         request.addParameter('authorId', authorId);

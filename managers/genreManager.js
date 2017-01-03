@@ -19,15 +19,16 @@ module.exports = {
     getGenreByIdList: function(request, response, next){
         var genreIds = request.getParameter('genreIds');
 
-        genreRepository.getGenreByIdList(genreIds, function(error, documents){
+        genreRepository.getGenreByIdList(genreIds, function(error, genres){
             if (error)
                 return next(error);
-            else if (!documents)
-                return next({code: 404, message: 'Genres cannot be found!'});
-            // TODO: Check if all genres are found. Return error if any of them is missing.
-            // Other methods will rely on this method to get all genres
+            else if (!genres || genreIds.length != genres.length){
+                var existingGenreIds = genres.map(genre => {return genre._id});
+                var notExistingGenreIds = genreIds.filter( genreId => { return existingGenreIds.indexOf(genreId) < 0 });
+                return next({code: 404, message: 'Genres not found: ' + notExistingGenreIds.toString()});
+            }
 
-            request.addParameter('genres', documents);
+            request.addParameter('genres', genres);
 
             return next();
         })

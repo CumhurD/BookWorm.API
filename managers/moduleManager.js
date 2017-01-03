@@ -6,7 +6,7 @@ module.exports = {
     // Otherwise, this method will be executed on every api call.
     implementRequestHelpers: function(request, response, next){ 
         request.addParameter = function(parameterId, parameter){
-            request._parameters = request.parameters || {};
+            request._parameters = request._parameters || {};
             request._parameters[parameterId] = parameter;
         };
         request.getParameter = function(parameterId){

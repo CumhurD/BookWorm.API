@@ -11,7 +11,7 @@ module.exports = {
             if (error)
                 return next(error);
             else if (!document)
-                return next({code: 404, message: 'Author cannot be found!'});
+                return next({code: 404, message: 'Author not found!'});
 
             request.addParameter('author', document);
 
