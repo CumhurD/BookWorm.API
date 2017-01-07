@@ -1,5 +1,3 @@
-        //var authorId = request.query.authorId;
-        //var bookId = request.params.bookId;
 
 module.exports = {
     getAuthors: function(request, response, next){
@@ -10,7 +8,7 @@ module.exports = {
         var authorId = request.params.authorId;
         
         if (!authorId){
-            return next({message: 'Id field is required!'});
+            return next({code: 400, message: 'Id field is required!'});
         }
 
         request.addParameter('authorId', authorId);
@@ -22,7 +20,7 @@ module.exports = {
         var authorSurname = request.body.Surname;
 
         if (!authorName || !authorSurname){
-            return next({message: 'Name, Surname fields are required!'});
+            return next({code: 400, message: 'Name, Surname fields are required!'});
         }
 
         request.addParameter('authorName', authorName);

@@ -33,7 +33,8 @@ module.exports = {
             Genres: genreIds,
             Variants: []
         }
-
+        
+        var db = baseRepository.getDb();
         db.collection('Books').insertOne(book,callback);
     }
 }
