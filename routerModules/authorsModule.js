@@ -1,14 +1,23 @@
 var authorManager = require('../managers/authorManager');
+var authorDataCollector = require('../dataCollectors/authorDataCollector');
+var authorTransformer = require('../transformers/authorTransformer');
+var commonTransformer = require('../transformers/commonTransformer');
 
 module.exports = {
-
     init: function(app){
-        var moduleName = '/authors/';
+        app.get('/authors', 
+            authorDataCollector.getAuthors,
+            authorManager.getAuthors,
+            authorTransformer.transformAuthors);
 
-        app.get(moduleName, authorManager.getAuthors);
+        app.get('/authors/:authorId', 
+            authorDataCollector.getAuthorById, 
+            authorManager.getAuthorById,
+            authorTransformer.transformAuthor);
 
-        app.get(moduleName + ':authorId', authorManager.getAuthorById);
-
-        app.post(moduleName, authorManager.insertAuthor);
+        app.post('/authors', 
+            authorDataCollector.insertAuthor,
+            authorManager.insertAuthor,
+            commonTransformer.commonResult);
     }
 }

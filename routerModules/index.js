@@ -1,9 +1,9 @@
 var booksModule = require('./booksModule');
-var moduleManager = require('../managers/moduleManager');
+var authorsModule = require('./authorsModule');
 
 module.exports = {
     init : function(app){
-
         booksModule.init(app);
+        authorsModule.init(app);
     }
 }

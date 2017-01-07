@@ -2,7 +2,16 @@ var authorRepository = require('../repositories/authorRepository');
 
 module.exports = {
     getAuthors: function(request, response, next){
-        // TODO: Will be implemented later
+        authorRepository.getAuthors(function(error, authors){
+            if (error)
+                return next(error);
+            else if (!authors || authors.length == 0)
+                return next({code: 404, message: 'Authors not found!'});
+
+            request.addParameter('authors', authors);
+
+            return next();
+        });
     },
     getAuthorById: function(request, response, next){
         var authorId = request.getParameter('authorId');
@@ -19,6 +28,17 @@ module.exports = {
         });
     },
     insertAuthor: function(request, response, next){
-        // TODO: Will be implemented later
+        var authorName = request.getParameter('authorName');
+        var authorSurname = request.getParameter('authorSurname');
+
+        authorRepository.insertAuthor(authorName, authorSurname, function(error, result){
+            if (error){
+                return next(error);
+            }
+
+            request.addParameter('result', result);
+            
+            return next();
+        });
     }
 }
