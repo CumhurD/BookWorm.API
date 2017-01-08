@@ -31,6 +31,28 @@ module.exports = {
         request.addParameter('title', title);
 
         return next();
+    },
+    collectGetVariantData: function(request, response, next){
+        var bookId = request.params.bookId;
+        var variantId = request.params.variantId;
+
+        if (!bookId || !variantId)
+            return next({code: 400, message: 'bookId and variantId parameters are required!'});
+
+        request.addParameter('bookId', bookId);
+        request.addParameter('variantId', variantId);
+
+        return next();
+    },
+    collectGetVariantsData: function(request, response, next){
+        var bookId = request.params.bookId;
+
+        if (!bookId)
+            return next({code: 400, message: 'bookId parameter is required!'})
+
+        request.addParameter('bookId', bookId);
+
+        return next();
     }
 
 

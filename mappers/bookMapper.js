@@ -9,12 +9,15 @@ module.exports = {
 
         return bookDto;
     },
-    mapToBookDtoArray: function(rawBooks){
-        if (!rawBooks instanceof Array)
-            throw "rawBooks variable is not an instance of Array!";
+    mapToVariantDto: function(rawVariant){
+        var variantDto = {
+            variantId: rawVariant._variantId,
+            title: rawVariant.Title,
+            language: rawVariant.Language,
+            publishDate: rawVariant.PublishDate,
+            publisherId: rawVariant.PublisherId
+        }
 
-        var bookDtos = rawBooks.map(book => { return this.mapToBookDto(book); });
-
-        return bookDtos;
+        return variantDto;
     }
 }

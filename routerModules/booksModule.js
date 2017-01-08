@@ -29,5 +29,16 @@ module.exports = {
             authorManager.getAuthorById, 
             bookManager.insertBook,
             commonTransformer.commonResult);
+
+        app.get('/books/:bookId/variants',
+            bookDataCollector.collectGetVariantsData,
+            bookManager.getVariants,
+            bookTransformer.transformVariants
+        )
+
+        app.get('/books/:bookId/variants/:variantId',
+            bookDataCollector.collectGetVariantData,
+            bookManager.getVariant,
+            bookTransformer.transformVariant);
     }
 }

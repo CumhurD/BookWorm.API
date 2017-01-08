@@ -1,5 +1,4 @@
 var bookRepository = require('../repositories/bookRepository');
-var mongoResultHandler = require('./moduleManager').getMongoResultHandler;
 
 module.exports = {
     getBooks: function(request, response, next){
@@ -55,5 +54,34 @@ module.exports = {
             
             return next();
         });   
+    },
+    getVariants: function(request, response, next){
+        var bookId = request.getParameter('bookId');
+
+        bookRepository.getVariants(bookId, function(error, book){
+            if (error)
+                return next(error);
+            else if (!book || book.length == 0 || !book.Variants || book.Variants.length == 0)
+                return next({code: 404, message: 'Variants not found!'});
+
+            request.addParameter('variants', book.Variants);
+
+            return next();
+        });
+    },
+    getVariant: function(request, response, next){
+        var bookId = request.getParameter('bookId');
+        var variantId = request.getParameter('variantId');
+
+        bookRepository.getVariant(bookId, variantId, function(error, book){
+            if (error)
+                return next(error);
+            else if (!book || book.length == 0 || !book.Variants || book.Variants.length == 0)
+                return next({code: 404, message: 'Variant not found!'});
+
+            request.addParameter('variant', book.Variants[0]);
+
+            return next();
+        });
     }
 }

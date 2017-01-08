@@ -36,5 +36,22 @@ module.exports = {
         
         var db = baseRepository.getDb();
         db.collection('Books').insertOne(book,callback);
+    },
+    getVariants: function(bookId, callback){
+        var db = baseRepository.getDb();
+        
+        var query = {_id: ObjectID(bookId)};
+        var projection = {Variants: 1, _id: 0};
+        
+        db.collection('Books').findOne(query, projection, callback);
+    },
+    getVariant: function(bookId, variantId, callback){
+        var db = baseRepository.getDb();
+
+        var query = { $and: [ { '_id': ObjectID(bookId)}, 
+                              { 'Variants._variantId': ObjectID(variantId)} ]};
+        var projection = {Variants: 1, _id:0 };
+
+        db.collection('Books').findOne(query, projection, callback);
     }
 }
