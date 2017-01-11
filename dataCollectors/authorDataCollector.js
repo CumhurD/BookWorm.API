@@ -8,7 +8,7 @@ module.exports = {
         var authorId = request.params.authorId;
         
         if (!authorId){
-            return next({code: 400, message: 'Id field is required!'});
+            return next({code: 400, message: 'authorId field is required!'});
         }
 
         request.addParameter('authorId', authorId);
@@ -16,11 +16,11 @@ module.exports = {
         return next();
     },
     insertAuthor: function(request, response, next){
-        var authorName = request.body.Name;
-        var authorSurname = request.body.Surname;
+        var authorName = request.body.authorName;
+        var authorSurname = request.body.authorSurname;
 
         if (!authorName || !authorSurname){
-            return next({code: 400, message: 'Name, Surname fields are required!'});
+            return next({code: 400, message: 'authorName, authorSurname fields are required!'});
         }
 
         request.addParameter('authorName', authorName);

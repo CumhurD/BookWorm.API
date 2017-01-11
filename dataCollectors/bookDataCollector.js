@@ -5,9 +5,12 @@ module.exports = {
     collectGetBooksData: function(request, response, next){
         var authorId = request.query.authorId;
 
+        if (!authorId)
+            return next(code: 400, message:'authorId parameter is required!');
+
         request.addParameter('authorId',authorId);
 
-        next();
+        return next();
     },
     collectGetBookByIdData: function(request, response, next){
         var bookId = request.params.bookId;
@@ -20,12 +23,12 @@ module.exports = {
         return next();
     },
     collectInsertBookData: function(request, response, next){
-        var authorId = request.body.AuthorId;
-        var genreIds = request.body.GenreIds;
-        var title = request.body.Title;
+        var authorId = request.body.authorId;
+        var genreIds = request.body.genreIds;
+        var title = request.body.title;
         
         if (!title || !authorId || !genreIds)
-            return next({code:400, message: 'Title, AuthorId and GenreIds parameters are required!'});
+            return next({code:400, message: 'title, authorId and genreIds parameters are required!'});
 
         request.addParameter('authorId', authorId);
         request.addParameter('genreIds', genreIds);
@@ -57,11 +60,11 @@ module.exports = {
     },
     collectInsertVariantData: function(request, response, next){
         var bookId = request.params.bookId;
-        var title = request.body.Title;
-        var language = request.body.Language;
-        var publisherId = request.body.PublisherId;
-        var publishDate = moment(request.body.PublishDate);
-        var barcode = request.body.Barcode;
+        var title = request.body.title;
+        var language = request.body.language;
+        var publisherId = request.body.publisherId;
+        var publishDate = moment(request.body.publishDate);
+        var barcode = request.body.barcode;
 
         if (!bookId || !title || !language || !publisherId || !publishDate || !barcode)
             return next({code: 400, message: 'bookId, title, language, publisherId, publishDate, barcode parameters are required!'});
