@@ -83,5 +83,22 @@ module.exports = {
 
             return next();
         });
+    },
+    insertVariant: function(request, response, next){
+        var bookId = request.getParameter('bookId');
+        var title = request.getParameter('title');
+        var language = request.getParameter('language');
+        var publisherId = request.getParameter('publisherId');
+        var publishDate = request.getParameter('publishDate'); 
+        var barcode = request.getParameter('barcode');
+
+        bookRepository.addVariant(bookId, title, language, publisherId, publishDate, barcode, function(error, result){
+            if (error)
+                return next(error);
+
+            request.addParameter('result', result.result);
+
+            return next();
+        });
     }
 }

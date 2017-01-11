@@ -28,7 +28,7 @@ module.exports = {
             genreManager.getGenreByIdList, 
             authorManager.getAuthorById, 
             bookManager.insertBook,
-            commonTransformer.commonResult);
+            commonTransformer.commonInsertResult);
 
         app.get('/books/:bookId/variants',
             bookDataCollector.collectGetVariantsData,
@@ -40,5 +40,10 @@ module.exports = {
             bookDataCollector.collectGetVariantData,
             bookManager.getVariant,
             bookTransformer.transformVariant);
+
+        app.post('/books/:bookId/variants',
+            bookDataCollector.collectInsertVariantData,
+            bookManager.insertVariant,
+            commonTransformer.commonUpdateResult)
     }
 }

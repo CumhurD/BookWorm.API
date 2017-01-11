@@ -18,6 +18,6 @@ module.exports = {
         app.post('/authors', 
             authorDataCollector.insertAuthor,
             authorManager.insertAuthor,
-            commonTransformer.commonResult);
+            commonTransformer.commonInsertResult);
     }
 }

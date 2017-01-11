@@ -53,5 +53,19 @@ module.exports = {
         var projection = {Variants: 1, _id:0 };
 
         db.collection('Books').findOne(query, projection, callback);
+    },
+    addVariant: function(bookId, title, language, publisherId, publishDate, barcode, callback){
+        var variant = {
+            _variantId: ObjectID(),
+            Title: title,
+            Language: language,
+            PublisherId : publisherId,
+            PublishDate: publishDate,
+            Barcode: barcode
+        };
+
+        var db = baseRepository.getDb();
+
+        db.collection('Books').update({_id: ObjectID(bookId)}, {$push: { Variants: variant }}, callback);
     }
 }
