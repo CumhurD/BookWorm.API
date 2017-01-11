@@ -30,17 +30,20 @@ module.exports = {
             bookManager.insertBook,
             commonTransformer.commonInsertResult);
 
+        // Returns all variants by bookId
         app.get('/books/:bookId/variants',
             bookDataCollector.collectGetVariantsData,
             bookManager.getVariants,
             bookTransformer.transformVariants
         )
 
+        // Returns variant by bookId and variantId
         app.get('/books/:bookId/variants/:variantId',
             bookDataCollector.collectGetVariantData,
             bookManager.getVariant,
             bookTransformer.transformVariant);
 
+        // Inserts a variant to book
         app.post('/books/:bookId/variants',
             bookDataCollector.collectInsertVariantData,
             bookManager.insertVariant,
