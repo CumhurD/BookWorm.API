@@ -1,6 +1,6 @@
 
 module.exports = {
-    mapToAuthorDto: function(rawAuthor){
+    mapToAuthorDto: function (rawAuthor) {
         var author = {
             id: rawAuthor._id,
             name: rawAuthor.Name,

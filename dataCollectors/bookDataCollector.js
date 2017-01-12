@@ -38,7 +38,7 @@ module.exports = {
         var bookId = request.params.bookId;
         var variantId = request.params.variantId;
 
-        if (!bookId ||  !variantId)
+        if (!bookId || !variantId)
             return next({ code: 400, message: 'bookId and variantId parameters are required!' });
 
         request.addParameter('bookId', bookId);
@@ -64,7 +64,7 @@ module.exports = {
         var publishDate = moment(request.body.publishDate);
         var barcode = request.body.barcode;
 
-        if (!bookId || !title || !language || !publisherId || !publishDate ||  !barcode)
+        if (!bookId || !title || !language || !publisherId || !publishDate || !barcode)
             return next({ code: 400, message: 'bookId, title, language, publisherId, publishDate, barcode parameters are required!' });
         else if (!publishDate.isValid())
             return next({ code: 400, message: 'publishDate is not in correct format! (YYYY-MM-DDTHH:mm:ss.SSSSZ)' })

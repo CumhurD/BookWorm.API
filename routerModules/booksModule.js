@@ -9,25 +9,25 @@ var commonTransformer = require('../transformers/commonTransformer');
 var publisherManager = require('../managers/publisherManager');
 
 module.exports = {
-    init: function (app){
+    init: function (app) {
 
         // Returns all books
-        app.get('/books/', 
+        app.get('/books/',
             bookDataCollector.collectGetBooksData,
-            bookManager.getBooks, 
+            bookManager.getBooks,
             bookTransformer.transformBooks);
 
         // Returns book by BookID
-        app.get('/books/:bookId/', 
-            bookDataCollector.collectGetBookByIdData, 
-            bookManager.getBookById, 
-            bookTransformer.transformBook); 
+        app.get('/books/:bookId/',
+            bookDataCollector.collectGetBookByIdData,
+            bookManager.getBookById,
+            bookTransformer.transformBook);
 
         // Inserts book
-        app.post('/books/', 
+        app.post('/books/',
             bookDataCollector.collectInsertBookData,
-            genreManager.getGenreByIdList, 
-            authorManager.getAuthorById, 
+            genreManager.getGenreByIdList,
+            authorManager.getAuthorById,
             bookManager.insertBook,
             commonTransformer.commonInsertResult);
 

@@ -1,11 +1,11 @@
 var bookRepository = require('../repositories/bookRepository');
 
 module.exports = {
-    getBooks: function(request, response, next){
+    getBooks: function (request, response, next) {
         var authorId = request.getParameter('authorId');
 
-        if (authorId){
-            bookRepository.getBooksByAuthorId(authorId, function(error, book){
+        if (authorId) {
+            bookRepository.getBooksByAuthorId(authorId, function (error, book) {
                 if (error)
                     return next(error);
 
@@ -14,85 +14,85 @@ module.exports = {
                 return next();
             });
         }
-        else{
-            bookRepository.getAllBooks(function(error, books){
+        else {
+            bookRepository.getAllBooks(function (error, books) {
                 if (error)
                     return next(error);
-                
+
                 request.addParameter('books', books);
 
                 return next();
             });
         }
     },
-    getBookById: function(request, response, next){
+    getBookById: function (request, response, next) {
         var bookId = request.getParameter('bookId');
 
-        bookRepository.getBookById(bookId, function(error, document){
+        bookRepository.getBookById(bookId, function (error, document) {
             if (error)
                 return next(error);
             else if (!document)
-                return next({code: 404, message: 'Book cannot be found!'});
-                
+                return next({ code: 404, message: 'Book cannot be found!' });
+
             request.addParameter('book', document);
 
             return next();
         });
     },
-    insertBook: function(request, response, next){
+    insertBook: function (request, response, next) {
         var author = request.getParameter('author');
         var title = request.getParameter('title');
         var genres = request.getParameter('genres');
 
-        var genreIds = genres.map(function(genre){return genre._id;});
+        var genreIds = genres.map(function (genre) { return genre._id; });
 
-        bookRepository.upsertBook(title, author._id, genreIds, function (error, result){
+        bookRepository.upsertBook(title, author._id, genreIds, function (error, result) {
             if (error)
                 return next(error);
-            
+
             request.addParameter('result', result);
-            
+
             return next();
-        });   
+        });
     },
-    getVariants: function(request, response, next){
+    getVariants: function (request, response, next) {
         var bookId = request.getParameter('bookId');
 
-        bookRepository.getVariants(bookId, function(error, book){
+        bookRepository.getVariants(bookId, function (error, book) {
             if (error)
                 return next(error);
             else if (!book || book.length == 0 || !book.Variants || book.Variants.length == 0)
-                return next({code: 404, message: 'Variants not found!'});
+                return next({ code: 404, message: 'Variants not found!' });
 
             request.addParameter('variants', book.Variants);
 
             return next();
         });
     },
-    getVariant: function(request, response, next){
+    getVariant: function (request, response, next) {
         var bookId = request.getParameter('bookId');
         var variantId = request.getParameter('variantId');
 
-        bookRepository.getVariant(bookId, variantId, function(error, book){
+        bookRepository.getVariant(bookId, variantId, function (error, book) {
             if (error)
                 return next(error);
-            else if (!book || book.length == 0 || !book.Variants || book.Variants.length == 0)
-                return next({code: 404, message: 'Variant not found!'});
+            else if (!book || book.length == 0 || !book.Variants ||  book.Variants.length == 0)
+                return next({ code: 404, message: 'Variant not found!' });
 
             request.addParameter('variant', book.Variants[0]);
 
             return next();
         });
     },
-    insertVariant: function(request, response, next){
+    insertVariant: function (request, response, next) {
         var bookId = request.getParameter('bookId');
         var title = request.getParameter('title');
         var language = request.getParameter('language');
         var publisherId = request.getParameter('publisherId');
-        var publishDate = request.getParameter('publishDate'); 
+        var publishDate = request.getParameter('publishDate');
         var barcode = request.getParameter('barcode');
 
-        bookRepository.addVariant(bookId, title, language, publisherId, publishDate, barcode, function(error, result){
+        bookRepository.addVariant(bookId, title, language, publisherId, publishDate, barcode, function (error, result) {
             if (error)
                 return next(error);
 

@@ -16,12 +16,12 @@ app.use(moduleManager.implementRequestHelpers);
 routerModules.init(app);
 app.use(errorManager.handleError);
 
-app.listen(configuration.applicationPort, function(){
+app.listen(configuration.applicationPort, function () {
     console.log('Bookworm.API listening on port ' + configuration.applicationPort);
 });
 
 process.on('uncaughtException', (err) => {
     debugger;
-//   fs.writeSync(1, `Caught exception: ${err}`);
+    //   fs.writeSync(1, `Caught exception: ${err}`);
 });
 

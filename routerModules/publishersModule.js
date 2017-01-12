@@ -3,8 +3,8 @@ var publisherManager = require('../managers/publisherManager');
 var publisherTransformer = require('../transformers/publisherTransformer');
 var commonTransformer = require('../transformers/commonTransformer');
 
-module.exports={
-    init: function(app){
+module.exports = {
+    init: function (app) {
         // Returns all publishers
         app.get('/publishers',
             publisherDataCollector.collectGetPublishersData,
@@ -18,7 +18,7 @@ module.exports={
             publisherTransformer.transformPublisher);
 
         // Inserts a new publisher
-        app.post('/publishers', 
+        app.post('/publishers',
             publisherDataCollector.collectInsertPublisherData,
             publisherManager.insertPublisher,
             commonTransformer.commonInsertResult);
