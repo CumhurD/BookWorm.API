@@ -6,6 +6,7 @@ var bookManager = require('../managers/bookManager');
 var bookDataCollector = require('../dataCollectors/bookDataCollector');
 var bookTransformer = require('../transformers/bookTransformer');
 var commonTransformer = require('../transformers/commonTransformer');
+var publisherManager = require('../managers/publisherManager');
 
 module.exports = {
     init: function (app){
@@ -46,7 +47,8 @@ module.exports = {
         // Inserts a variant to book
         app.post('/books/:bookId/variants',
             bookDataCollector.collectInsertVariantData,
+            publisherManager.getPublisherById,
             bookManager.insertVariant,
-            commonTransformer.commonUpdateResult)
+            commonTransformer.commonUpdateResult);
     }
 }

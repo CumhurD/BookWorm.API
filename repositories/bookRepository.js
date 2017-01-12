@@ -1,71 +1,103 @@
 var baseRepository = require('./baseRepository');
 var ObjectID = require('mongodb').ObjectID;
 
-// TODO: getBooksWithQuery and getBookWithQuery methods will be private
-
 module.exports = {
-    getBooksWithQuery: function(query, callback){
+    getAllBooks: function (callback) {
         var db = baseRepository.getDb();
-        db.collection('Books').find(query).toArray(callback);
+        var query = [
+            {
+                '$lookup': {
+                    from: "Authors",
+                    localField: "AuthorId",
+                    foreignField: "_id",
+                    as: "Author"
+                }
+            }
+        ];
+
+        db.collection('Books').aggregate(query, callback);
     },
-    getBookWithQuery: function(query, callback){
+    getBookById: function (bookId, callback) {
         var db = baseRepository.getDb();
-        db.collection('Books').findOne(query, callback);
+
+        var query = [
+            { '$match': { '_id': ObjectID(bookId) } },
+            { '$limit': 1 },
+            {
+                '$lookup': {
+                    from: "Authors",
+                    localField: "AuthorId",
+                    foreignField: "_id",
+                    as: "Author"
+                }
+            }
+        ];
+
+        db.collection('Books').aggregate(query, callback);
     },
-    getAllBooks: function(callback){
+    getBooksByAuthorId: function (authorId, callback) {
         var db = baseRepository.getDb();
-        db.collection('Books').find({}).toArray(callback);
+
+        var query = [
+            { '$match': { 'AuthorId': ObjectID(authorId) } },
+            {
+                '$lookup': {
+                    from: "Authors",
+                    localField: "AuthorId",
+                    foreignField: "_id",
+                    as: "Author"
+                }
+            }
+        ];
+
+        db.collection('Books').aggregate(query, callback);
     },
-    getBookById: function(id, callback){
-        this.getBookWithQuery({_id: ObjectID(id)}, callback);
+    getBooksByGenre: function (genreId, callback) {
+        this.getBooksWithQuery({ GenreIds: genreId })
     },
-    getBooksByAuthorId: function(authorId, callback){
-        this.getBooksWithQuery({AuthodId: authorId}, callback);
-    },
-    getBooksByGenre: function(genreId, callback){
-        this.getBooksWithQuery({GenreIds: genreId})
-    },
-    upsertBook: function(title, authorId, genreIds, callback){
+    upsertBook: function (title, authorId, genreIds, callback) {
         var book =
-        {
-            AuthorId: authorId,
-            Title: title,
-            Genres: genreIds,
-            Variants: []
-        }
-        
+            {
+                AuthorId: authorId,
+                Title: title,
+                Genres: genreIds,
+                Variants: []
+            }
+
         var db = baseRepository.getDb();
-        db.collection('Books').insertOne(book,callback);
+        db.collection('Books').insertOne(book, callback);
     },
-    getVariants: function(bookId, callback){
-        var db = baseRepository.getDb();
-        
-        var query = {_id: ObjectID(bookId)};
-        var projection = {Variants: 1, _id: 0};
-        
-        db.collection('Books').findOne(query, projection, callback);
-    },
-    getVariant: function(bookId, variantId, callback){
+    getVariants: function (bookId, callback) {
         var db = baseRepository.getDb();
 
-        var query = { $and: [ { '_id': ObjectID(bookId)}, 
-                              { 'Variants._variantId': ObjectID(variantId)} ]};
-        var projection = {Variants: 1, _id:0 };
+        var query = { _id: ObjectID(bookId) };
+        var projection = { Variants: 1, _id: 0 };
 
         db.collection('Books').findOne(query, projection, callback);
     },
-    addVariant: function(bookId, title, language, publisherId, publishDate, barcode, callback){
+    getVariant: function (bookId, variantId, callback) {
+        var db = baseRepository.getDb();
+
+        var query = {
+            $and: [{ '_id': ObjectID(bookId) },
+            { 'Variants._variantId': ObjectID(variantId) }]
+        };
+        var projection = { Variants: 1, _id: 0 };
+
+        db.collection('Books').findOne(query, projection, callback);
+    },
+    addVariant: function (bookId, title, language, publisherId, publishDate, barcode, callback) {
         var variant = {
             _variantId: ObjectID(),
             Title: title,
             Language: language,
-            PublisherId : publisherId,
+            PublisherId: publisherId,
             PublishDate: publishDate,
             Barcode: barcode
         };
 
         var db = baseRepository.getDb();
 
-        db.collection('Books').update({_id: ObjectID(bookId)}, {$push: { Variants: variant }}, callback);
+        db.collection('Books').update({ _id: ObjectID(bookId) }, { $push: { Variants: variant } }, callback);
     }
 }

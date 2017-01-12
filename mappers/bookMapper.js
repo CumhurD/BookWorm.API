@@ -1,15 +1,18 @@
 
 
 module.exports = {
-    mapToBookDto: function (rawBook){
+    mapToBookDto: function (rawBook) {
+        var author = rawBook.Author[0];
+
         var bookDto = {
+            id: rawBook._id,
             title: rawBook.Title,
-            authorName: 'Robin Hobb'
+            authorName: author.Name + ' ' + author.Surname
         }
 
         return bookDto;
     },
-    mapToVariantDto: function(rawVariant){
+    mapToVariantDto: function (rawVariant) {
         var variantDto = {
             variantId: rawVariant._variantId,
             title: rawVariant.Title,
