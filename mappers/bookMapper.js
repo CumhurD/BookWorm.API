@@ -13,12 +13,17 @@ module.exports = {
         return bookDto;
     },
     mapToVariantDto: function (rawVariant) {
+        var publisher = rawVariant.Publisher[0];
+
         var variantDto = {
-            variantId: rawVariant._variantId,
+            id: rawVariant._variantId,
             title: rawVariant.Title,
             language: rawVariant.Language,
-            publishDate: rawVariant.PublishDate,
-            publisherId: rawVariant.PublisherId
+            publishInfo: {
+                publishDate: rawVariant.PublishDate,
+                publisherId: rawVariant.PublisherId,
+                publisherName: publisher.Name
+            }
         }
 
         return variantDto;

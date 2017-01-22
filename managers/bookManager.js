@@ -58,13 +58,13 @@ module.exports = {
     getVariants: function (request, response, next) {
         var bookId = request.getParameter('bookId');
 
-        bookRepository.getVariants(bookId, function (error, book) {
+        bookRepository.getVariants(bookId, function (error, books) {
             if (error)
                 return next(error);
-            else if (!book || book.length == 0 || !book.Variants || book.Variants.length == 0)
+            else if (!books || books.length == 0)
                 return next({ code: 404, message: 'Variants not found!' });
 
-            request.addParameter('variants', book.Variants);
+            request.addParameter('variants', books.map(book => {return book.Variants; }));
 
             return next();
         });
@@ -76,10 +76,10 @@ module.exports = {
         bookRepository.getVariant(bookId, variantId, function (error, book) {
             if (error)
                 return next(error);
-            else if (!book || book.length == 0 || !book.Variants ||  book.Variants.length == 0)
+            else if (!book || !book.Variants)
                 return next({ code: 404, message: 'Variant not found!' });
 
-            request.addParameter('variant', book.Variants[0]);
+            request.addParameter('variant', book.Variants);
 
             return next();
         });

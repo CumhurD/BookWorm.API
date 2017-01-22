@@ -70,21 +70,55 @@ module.exports = {
     getVariants: function (bookId, callback) {
         var db = baseRepository.getDb();
 
-        var query = { _id: ObjectID(bookId) };
-        var projection = { Variants: 1, _id: 0 };
+        var query = [
+            {
+                '$match': { '_id': ObjectID(bookId) }
+            },
+            {
+                $unwind: "$Variants"
+            },
+            {
+                $project: { "Variants": 1, _id: 0 }
+            },
+            {
+                '$lookup': {
+                    from: "Publishers",
+                    localField: "Variants.PublisherId",
+                    foreignField: "_id",
+                    as: "Variants.Publisher"
+                }
+            }
+        ];
 
-        db.collection('Books').findOne(query, projection, callback);
+        db.collection('Books').aggregate(query, callback);
     },
     getVariant: function (bookId, variantId, callback) {
         var db = baseRepository.getDb();
 
-        var query = {
-            $and: [{ '_id': ObjectID(bookId) },
-            { 'Variants._variantId': ObjectID(variantId) }]
-        };
-        var projection = { Variants: 1, _id: 0 };
+        var query = [
+            {
+                '$match': { '_id': ObjectID(bookId) }
+            },
+            {
+                $unwind: "$Variants"
+            },
+            {
+                '$match': { 'Variants._variantId': ObjectID(variantId) }
+            },
+            {
+                $project: { "Variants": 1, _id: 0 }
+            },
+            {
+                '$lookup': {
+                    from: "Publishers",
+                    localField: "Variants.PublisherId",
+                    foreignField: "_id",
+                    as: "Variants.Publisher"
+                }
+            }
+        ];
 
-        db.collection('Books').findOne(query, projection, callback);
+        db.collection('Books').aggregateOne(query, callback);
     },
     addVariant: function (bookId, title, language, publisherId, publishDate, barcode, callback) {
         var variant = {

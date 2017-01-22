@@ -1,5 +1,6 @@
 var bodyParser = require('body-parser');
 var express = require('express');
+var DBCollection = require('mongodb')
 var app = express();
 
 var configuration = require('./config.json');
@@ -9,6 +10,7 @@ var baseRepository = require('./repositories/baseRepository');
 var routerModules = require('./routerModules');
 
 baseRepository.connectDb();
+baseRepository.implementCollectionHelpers();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

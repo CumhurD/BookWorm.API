@@ -1,4 +1,5 @@
 var mongoClient = require('mongodb').MongoClient;
+var mongoCollection = require('mongodb').Collection;
 var configuration = require('../config.json');
 var assert = require('assert');
 var database = null;
@@ -16,6 +17,13 @@ module.exports = {
             console.log('Successfuly connected to MongoDB server!');
             database = db;
         });
+    },
+    implementCollectionHelpers: function(){
+        mongoCollection.prototype.aggregateOne = function(pipeline, callback){
+            var cursor = this.aggregate(pipeline);
+
+            cursor.nextObject(callback);
+        };
     },
     getDb: function () {
         return database;
