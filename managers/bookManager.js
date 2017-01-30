@@ -28,13 +28,13 @@ module.exports = {
     getBookById: function (request, response, next) {
         var bookId = request.getParameter('bookId');
 
-        bookRepository.getBookById(bookId, function (error, document) {
+        bookRepository.getBookById(bookId, function (error, book) {
             if (error)
                 return next(error);
-            else if (!document)
+            else if (!book)
                 return next({ code: 404, message: 'Book cannot be found!' });
 
-            request.addParameter('book', document);
+            request.addParameter('book', book);
 
             return next();
         });

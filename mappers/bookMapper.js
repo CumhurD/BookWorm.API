@@ -1,6 +1,7 @@
 
 
 module.exports = {
+
     mapToBookDto: function (rawBook) {
         var author = rawBook.Author[0];
 

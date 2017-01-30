@@ -33,7 +33,7 @@ module.exports = {
             }
         ];
 
-        db.collection('Books').aggregate(query, callback);
+        db.collection('Books').aggregateOne(query, callback);
     },
     getBooksByAuthorId: function (authorId, callback) {
         var db = baseRepository.getDb();
