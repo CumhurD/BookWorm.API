@@ -1,6 +1,11 @@
 var baseRepository = require('./baseRepository');
 
 module.exports = {
+    getAllGenres: function(callback){
+        var db = baseRepository.getDb();
+
+        db.collection('Genres').find({}).toArray(callback);
+    },
     getGenreById: function (genreId, callback) {
         var db = baseRepository.getDb();
 

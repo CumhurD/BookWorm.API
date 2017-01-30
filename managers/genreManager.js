@@ -1,6 +1,19 @@
 var genreRepository = require('../repositories/genreRepository');
 
 module.exports = {
+    getGenres: function(request, response, next){
+        
+        genreRepository.getAllGenres(function(error, genres){
+            if(error)
+                return next(error);
+            else if (!genres)
+                return next({code: 404, message: 'Genre is not found!'});
+            
+            request.addParameter('genres', genres);
+
+            return next();
+        });
+    },
     getGenreById: function (request, response, next) {
         var genreId = request.getParameter('genreId');
 
