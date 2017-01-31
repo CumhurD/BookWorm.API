@@ -4,9 +4,13 @@ var moment = require('moment');
 module.exports = {
     collectGetBooksData: function (request, response, next) {
         var authorId = request.query.authorId;
+        var genreIds = request.query.genreIds;
 
         if (authorId)
             request.addParameter('authorId', authorId);
+
+        if (genreIds)
+           request.addParameter('genreIds', genreIds.split('|'));
 
         return next();
     },

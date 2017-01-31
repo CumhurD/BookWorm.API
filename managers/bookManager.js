@@ -3,27 +3,16 @@ var bookRepository = require('../repositories/bookRepository');
 module.exports = {
     getBooks: function (request, response, next) {
         var authorId = request.getParameter('authorId');
+        var genreIds = request.getParameter('genreIds');
 
-        if (authorId) {
-            bookRepository.getBooksByAuthorId(authorId, function (error, book) {
-                if (error)
-                    return next(error);
+        bookRepository.getBooks(authorId, genreIds, function (error, book) {
+            if (error)
+                return next(error);
 
-                request.addParameter('books', book);
+            request.addParameter('books', book);
 
-                return next();
-            });
-        }
-        else {
-            bookRepository.getAllBooks(function (error, books) {
-                if (error)
-                    return next(error);
-
-                request.addParameter('books', books);
-
-                return next();
-            });
-        }
+            return next();
+        });
     },
     getBookById: function (request, response, next) {
         var bookId = request.getParameter('bookId');
@@ -64,7 +53,7 @@ module.exports = {
             else if (!books || books.length == 0)
                 return next({ code: 404, message: 'Variants not found!' });
 
-            request.addParameter('variants', books.map(book => {return book.Variants; }));
+            request.addParameter('variants', books.map(book => { return book.Variants; }));
 
             return next();
         });

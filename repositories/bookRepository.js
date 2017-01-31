@@ -2,9 +2,19 @@ var baseRepository = require('./baseRepository');
 var ObjectID = require('mongodb').ObjectID;
 
 module.exports = {
-    getAllBooks: function (callback) {
+    getBooks: function (authorId, genreIds, callback) {
         var db = baseRepository.getDb();
-        var query = [
+
+        var conditions = []
+
+        if (authorId)
+            conditions.push({ 'AuthorId': ObjectID(authorId) });
+        if (genreIds)
+            conditions.push({ 'Genres': { '$in': genreIds } });
+
+        var match = { '$match': { '$and': conditions } };
+
+        var lookup =
             {
                 '$lookup': {
                     from: "Authors",
@@ -12,8 +22,14 @@ module.exports = {
                     foreignField: "_id",
                     as: "Author"
                 }
-            }
-        ];
+            };
+
+        var query = [];
+
+        if (conditions.length > 0)
+            query.push(match);
+
+        query.push(lookup);
 
         db.collection('Books').aggregate(query, callback);
     },
@@ -51,9 +67,6 @@ module.exports = {
         ];
 
         db.collection('Books').aggregate(query, callback);
-    },
-    getBooksByGenre: function (genreId, callback) {
-        this.getBooksWithQuery({ GenreIds: genreId })
     },
     upsertBook: function (title, authorId, genreIds, callback) {
         var book =
