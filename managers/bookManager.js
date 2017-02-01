@@ -3,9 +3,9 @@ var bookRepository = require('../repositories/bookRepository');
 module.exports = {
     getBooks: function (request, response, next) {
         var authorId = request.getParameter('authorId');
-        var genreIds = request.getParameter('genreIds');
+        var genres = request.getParameter('genres');
 
-        bookRepository.getBooks(authorId, genreIds, function (error, book) {
+        bookRepository.getBooks(authorId, genres, function (error, book) {
             if (error)
                 return next(error);
 
@@ -33,9 +33,9 @@ module.exports = {
         var title = request.getParameter('title');
         var genres = request.getParameter('genres');
 
-        var genreIds = genres.map(function (genre) { return genre._id; });
+        var genres = genres.map(function (genre) { return genre.Name; });
 
-        bookRepository.upsertBook(title, author._id, genreIds, function (error, result) {
+        bookRepository.upsertBook(title, author._id, genres, function (error, result) {
             if (error)
                 return next(error);
 

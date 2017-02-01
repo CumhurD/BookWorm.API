@@ -1,14 +1,14 @@
 var genreRepository = require('../repositories/genreRepository');
 
 module.exports = {
-    getGenres: function(request, response, next){
-        
-        genreRepository.getAllGenres(function(error, genres){
-            if(error)
+    getGenres: function (request, response, next) {
+
+        genreRepository.getAllGenres(function (error, genres) {
+            if (error)
                 return next(error);
             else if (!genres)
-                return next({code: 404, message: 'Genre is not found!'});
-            
+                return next({ code: 404, message: 'Genre is not found!' });
+
             request.addParameter('genres', genres);
 
             return next();
@@ -35,7 +35,7 @@ module.exports = {
         genreRepository.getGenreByIdList(genreIds, function (error, genres) {
             if (error)
                 return next(error);
-            else if (!genres ||  genreIds.length != genres.length) {
+            else if (!genres || genres.length != genreIds.length) {
                 var existingGenreIds = genres.map(genre => { return genre._id });
                 var notExistingGenreIds = genreIds.filter(genreId => { return existingGenreIds.indexOf(genreId) < 0 });
                 return next({ code: 404, message: 'Genres not found: ' + notExistingGenreIds.toString() });
@@ -46,5 +46,22 @@ module.exports = {
             return next();
         })
 
+    },
+    getGenreByNameList: function (request, response, next) {
+        var genreNames = request.getParameter('genreNames');
+
+        genreRepository.getGenreByNameList(genreNames, function (error, genres) {
+            if (error)
+                return next(error);
+            else if (!genres || genres.length != genreNames.length) {
+                var existingGenreNames = genres.map(genre => { return genre.Name });
+                var notExistingGenreNames = genreNames.filter(genreName => { return existingGenreNames.indexOf(genreName) < 0 });
+                return next({ code: 404, message: 'Genres not found: ' + notExistingGenreNames.toString() });
+            }
+
+            request.addParameter('genres', genres);
+
+            return next();
+        });
     }
 }

@@ -4,13 +4,13 @@ var moment = require('moment');
 module.exports = {
     collectGetBooksData: function (request, response, next) {
         var authorId = request.query.authorId;
-        var genreIds = request.query.genreIds;
+        var genres = request.query.genres;
 
         if (authorId)
             request.addParameter('authorId', authorId);
 
-        if (genreIds)
-           request.addParameter('genreIds', genreIds.split('|'));
+        if (genres)
+           request.addParameter('genres', genres.split('|'));
 
         return next();
     },
@@ -26,14 +26,14 @@ module.exports = {
     },
     collectInsertBookData: function (request, response, next) {
         var authorId = request.body.authorId;
-        var genreIds = request.body.genreIds;
+        var genreNames = request.body.genreNames;
         var title = request.body.title;
 
-        if (!title || !authorId || !genreIds)
-            return next({ code: 400, message: 'title, authorId and genreIds parameters are required!' });
+        if (!title || !authorId || !genreNames)
+            return next({ code: 400, message: 'title, authorId and genreNames parameters are required!' });
 
         request.addParameter('authorId', authorId);
-        request.addParameter('genreIds', genreIds);
+        request.addParameter('genreNames', genreNames);
         request.addParameter('title', title);
 
         return next();

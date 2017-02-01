@@ -1,7 +1,7 @@
 {
     "authorId": "1",
-    "genreIds": [
-        1
+    "genres": [
+        "Fantasy"
     ],
     "title": "Assasin's Apprentice"
 }

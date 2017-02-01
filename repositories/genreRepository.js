@@ -1,7 +1,7 @@
 var baseRepository = require('./baseRepository');
 
 module.exports = {
-    getAllGenres: function(callback){
+    getAllGenres: function (callback) {
         var db = baseRepository.getDb();
 
         db.collection('Genres').find({}).toArray(callback);
@@ -15,5 +15,10 @@ module.exports = {
         var db = baseRepository.getDb();
 
         db.collection('Genres').find({ _id: { $in: genreIds } }).toArray(callback);
+    },
+    getGenreByNameList: function (genreNames, callback) {
+        var db = baseRepository.getDb();
+
+        db.collection('Genres').find({ Name: { $in: genreNames } }).toArray(callback);
     }
 }
