@@ -35,7 +35,7 @@ module.exports = {
         genreRepository.getGenreByIdList(genreIds, function (error, genres) {
             if (error)
                 return next(error);
-            else if (!genres || genres.length != genreIds.length) {
+            else if (!genres ||  genreIds.length != genres.length) {
                 var existingGenreIds = genres.map(genre => { return genre._id });
                 var notExistingGenreIds = genreIds.filter(genreId => { return existingGenreIds.indexOf(genreId) < 0 });
                 return next({ code: 404, message: 'Genres not found: ' + notExistingGenreIds.toString() });

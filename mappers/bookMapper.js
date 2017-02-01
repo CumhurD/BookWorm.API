@@ -8,7 +8,8 @@ module.exports = {
         var bookDto = {
             id: rawBook._id,
             title: rawBook.Title,
-            authorName: author.Name + ' ' + author.Surname
+            authorName: author.Name + ' ' + author.Surname,
+            genres: rawBook.Genres
         }
 
         return bookDto;
