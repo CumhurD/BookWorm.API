@@ -15,6 +15,7 @@ baseRepository.implementCollectionHelpers();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(moduleManager.implementRequestHelpers);
+app.use(moduleManager.addCorsHeaders);
 routerModules.init(app);
 app.use(errorManager.handleError);
 

@@ -7,7 +7,7 @@ module.exports = {
         let notification = {
             Header: header,
             Message: message,
-            State: 0
+            State: false
         };
 
         let db = baseRepository.getDb();
@@ -21,6 +21,6 @@ module.exports = {
     },
     getNotifications: function (callback) {
         let db = baseRepository.getDb();
-        db.collection('Notifications').find({ IsRead: 0 }).toArray(callback);
+        db.collection('Notifications').find({ State: 0 }).toArray(callback);
     }
 }
