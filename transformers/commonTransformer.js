@@ -1,14 +1,16 @@
-
+var commonMapper = require('../mappers/commonMapper');
 
 module.exports = {
     commonInsertResult: function (request, response, next) {
-        var result = request.getParameter('result');
+        let rawResult = request.getParameter('result');
+        let result = commonMapper.mapToInsertResultDto(rawResult);
 
-        return response.send({ insertedItems: result.insertedCount });
+        return response.send(result);
     },
     commonUpdateResult: function (request, response, next) {
-        var result = request.getParameter('result');
+        let rawResult = request.getParameter('result');
+        let result = commonMapper.mapToUpdateResultDto(rawResult);
 
-        return response.send({ updatedItems: result.nModified });
+        return response.send(result);
     }
 }

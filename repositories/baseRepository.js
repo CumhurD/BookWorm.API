@@ -14,6 +14,9 @@ module.exports = {
                 autoConnect: true
             }
         }, function (err, db) {
+            if(err)
+                throw err;
+                
             console.log('Successfuly connected to MongoDB server!');
             database = db;
         });

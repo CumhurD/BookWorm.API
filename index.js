@@ -23,7 +23,6 @@ app.listen(configuration.applicationPort, function () {
 });
 
 process.on('uncaughtException', (err) => {
-    debugger;
     //   fs.writeSync(1, `Caught exception: ${err}`);
 });
 
