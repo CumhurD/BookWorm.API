@@ -15,7 +15,7 @@ module.exports = {
         });
     },
     getGenreById: function (request, response, next) {
-        var genreId = request.getParameter('genreId');
+        let genreId = request.getParameter('genreId');
 
         genreRepository.getGenreById(genreId, function (error, document) {
             if (error)
@@ -30,14 +30,14 @@ module.exports = {
         });
     },
     getGenreByIdList: function (request, response, next) {
-        var genreIds = request.getParameter('genreIds');
+        let genreIds = request.getParameter('genreIds');
 
         genreRepository.getGenreByIdList(genreIds, function (error, genres) {
             if (error)
                 return next(error);
             else if (!genres ||  genreIds.length != genres.length) {
-                var existingGenreIds = genres.map(genre => { return genre._id });
-                var notExistingGenreIds = genreIds.filter(genreId => { return existingGenreIds.indexOf(genreId) < 0 });
+                let existingGenreIds = genres.map(genre => { return genre._id });
+                let notExistingGenreIds = genreIds.filter(genreId => { return existingGenreIds.indexOf(genreId) < 0 });
                 return next({ code: 404, message: 'Genres not found: ' + notExistingGenreIds.toString() });
             }
 
@@ -48,14 +48,14 @@ module.exports = {
 
     },
     getGenreByNameList: function (request, response, next) {
-        var genreNames = request.getParameter('genreNames');
+        let genreNames = request.getParameter('genreNames');
 
         genreRepository.getGenreByNameList(genreNames, function (error, genres) {
             if (error)
                 return next(error);
             else if (!genres || genres.length != genreNames.length) {
-                var existingGenreNames = genres.map(genre => { return genre.Name });
-                var notExistingGenreNames = genreNames.filter(genreName => { return existingGenreNames.indexOf(genreName) < 0 });
+                let existingGenreNames = genres.map(genre => { return genre.Name });
+                let notExistingGenreNames = genreNames.filter(genreName => { return existingGenreNames.indexOf(genreName) < 0 });
                 return next({ code: 404, message: 'Genres not found: ' + notExistingGenreNames.toString() });
             }
 

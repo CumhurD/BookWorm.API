@@ -16,14 +16,14 @@ module.exports = {
         }, function (err, db) {
             if(err)
                 throw err;
-                
+
             console.log('Successfuly connected to MongoDB server!');
             database = db;
         });
     },
     implementCollectionHelpers: function(){
         mongoCollection.prototype.aggregateOne = function(pipeline, callback){
-            var cursor = this.aggregate(pipeline);
+            let cursor = this.aggregate(pipeline);
 
             cursor.nextObject(callback);
         };

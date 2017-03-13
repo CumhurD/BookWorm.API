@@ -4,7 +4,7 @@ module.exports = {
         return next();
     },
     collectGetPublisherByIdData: function (request, response, next) {
-        var publisherId = request.params.publisherId;
+        let publisherId = request.params.publisherId;
 
         if (!publisherId)
             return next({ code: 400, message: 'publisherId parameter is required!' });
@@ -14,8 +14,8 @@ module.exports = {
         return next();
     },
     collectInsertPublisherData: function (request, response, next) {
-        var publisherName = request.body.publisherName;
-        var publisherLocation = request.body.publisherLocation;
+        let publisherName = request.body.publisherName;
+        let publisherLocation = request.body.publisherLocation;
 
         if (!publisherName ||  !publisherLocation)
             return next({ code: 400, message: 'publisherName and publisherLocation fields are required!' });

@@ -16,7 +16,7 @@ module.exports = {
 
     },
     getPublisherById: function (request, response, next) {
-        var publisherId = request.getParameter('publisherId');
+        let publisherId = request.getParameter('publisherId');
 
         publisherRepository.getPublisherById(publisherId, function (error, publisher) {
             if (error)
@@ -30,8 +30,8 @@ module.exports = {
         });
     },
     insertPublisher: function (request, response, next) {
-        var publisherName = request.getParameter('publisherName');
-        var publisherLocation = request.getParameter('publisherLocation');
+        let publisherName = request.getParameter('publisherName');
+        let publisherLocation = request.getParameter('publisherLocation');
 
         publisherRepository.insertPublisher(publisherName, publisherLocation, function (error, result) {
             if (error)

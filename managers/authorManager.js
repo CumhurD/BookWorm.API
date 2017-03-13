@@ -14,7 +14,7 @@ module.exports = {
         });
     },
     getAuthorById: function (request, response, next) {
-        var authorId = request.getParameter('authorId');
+        let authorId = request.getParameter('authorId');
 
         authorRepository.getAuthorById(authorId, function (error, document) {
             if (error)
@@ -28,8 +28,8 @@ module.exports = {
         });
     },
     insertAuthor: function (request, response, next) {
-        var authorName = request.getParameter('authorName');
-        var authorSurname = request.getParameter('authorSurname');
+        let authorName = request.getParameter('authorName');
+        let authorSurname = request.getParameter('authorSurname');
 
         authorRepository.insertAuthor(authorName, authorSurname, function (error, result) {
             if (error) {

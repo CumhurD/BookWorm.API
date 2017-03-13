@@ -3,9 +3,9 @@
 module.exports = {
 
     mapToBookDto: function (rawBook) {
-        var author = rawBook.Author[0];
+        let author = rawBook.Author[0];
 
-        var bookDto = {
+        let bookDto = {
             id: rawBook._id,
             title: rawBook.Title,
             authorName: author.Name + ' ' + author.Surname,
@@ -15,9 +15,9 @@ module.exports = {
         return bookDto;
     },
     mapToVariantDto: function (rawVariant) {
-        var publisher = rawVariant.Publisher[0];
+        let publisher = rawVariant.Publisher[0];
 
-        var variantDto = {
+        let variantDto = {
             id: rawVariant._variantId,
             title: rawVariant.Title,
             language: rawVariant.Language,

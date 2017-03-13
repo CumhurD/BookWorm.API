@@ -15,7 +15,7 @@ module.exports = {
         return response.send(notifications);
     },
     transformNotificationInsertResult: function(request, response, next){
-        var result = request.getParameter('notificationResult');
+        let result = request.getParameter('notificationResult');
 
         return response.send({ insertedItems: result.insertedCount });
     }

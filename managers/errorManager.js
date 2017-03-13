@@ -3,8 +3,8 @@
 module.exports = {
     handleError: function (error, request, response, next) {
         // TODO: Log error
-        var errorCode;
-        var errorMessage;
+        let errorCode;
+        let errorMessage;
 
         if (error.name == 'MongoError') {
             errorCode = 500;

@@ -1,7 +1,7 @@
 
 module.exports = {
     mapToGenre: function(rawGenre){
-        var genre = {
+        let genre = {
             id: rawGenre._id,
             name: rawGenre.Name
         };
